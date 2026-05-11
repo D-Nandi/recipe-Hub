@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FlavorHub — Fulfil Your Cravings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;600&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- CHANGE 2: Skip to content link for keyboard/screen reader users -->
+  <a href="#mainContent" class="skip-link">Skip to content</a>
+
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+  <!-- NAV -->
+  <nav id="navbar" aria-label="Main navigation">
+    <div class="logo" onclick="showHome()" role="button" tabindex="0" aria-label="FlavorHub home">
+      <span class="logo-flavor">Flavor</span><span class="logo-hub">Hub</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#" onclick="showHome(); return false;">Home</a></li>
+      <li><a href="#search-section">Explore</a></li>
+      <li><a href="#" onclick="showFavourites(); return false;" class="nav-fav" aria-label="Saved recipes">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true">
+            <path
+              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+          </svg>
+          Saved <span id="favCount" class="fav-badge" aria-label="saved recipes count">0</span>
+        </a></li>
+    </ul>
+    <button class="nav-cook-btn" id="navCookBtn" style="display:none" onclick="toggleCookMode()" aria-label="Enter cook mode">
+      🍳 Cook Mode
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="search-section">
+    <canvas id="heroCanvas"></canvas>
+    <div class="hero-content">
+      <div class="hero-eyebrow">
+        <span class="eyebrow-line"></span>
+        Har Dish Ki Kahani
+        <span class="eyebrow-line"></span>
+      </div>
+      <h1 data-notranslate>Fulfil Every<br><em>Craving You Have</em></h1>
+      <p class="hero-sub">From spicy curries to sweet desserts — discover thousands of recipes with full nutrition, cook
+        mode, and ingredient guides.</p>
+
+      <div class="search-wrap">
+        <div class="search-box" id="searchBox">
+          <svg class="search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg>
+          <input type="text" id="searchInput" placeholder="Search — Biryani, Pasta, Sushi, Ramen..."
+            autocomplete="off" aria-label="Search recipes" />
+          <button onclick="doSearch()" class="search-btn" aria-label="Find recipe">
+            Find Recipe
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="suggestions-dropdown" id="suggestionsDropdown"></div>
+
+        <div class="chips">
+          <span class="chip" onclick="quickSearch('Biryani')"><span class="chip-emoji hot-food">🍛</span> Biryani</span>
+          <span class="chip" onclick="browseCuisine('Indian','🇮🇳')"><span class="chip-emoji hot-food">🍗</span> Butter Chicken</span>
+          <span class="chip" onclick="browseCuisine('Italian','🇮🇹')"><span class="chip-emoji hot-food">🍝</span> Pasta</span>
+          <span class="chip" onclick="browseCuisine('Japanese','🇯🇵')"><span class="chip-emoji">🍣</span> Sushi</span>
+          <span class="chip" onclick="quickSearch('Pizza')"><span class="chip-emoji hot-food">🍕</span> Pizza</span>
+          <span class="chip" onclick="quickSearch('Ramen')"><span class="chip-emoji hot-food">🍜</span> Ramen</span>
+          <span class="chip" onclick="quickSearch('Burger')"><span class="chip-emoji hot-food">🍔</span> Burger</span>
+          <span class="chip" onclick="browseCuisine('Mexican','🇲🇽')"><span class="chip-emoji hot-food">🌮</span> Tacos</span>
+          <span class="chip" onclick="quickSearch('Soup')"><span class="chip-emoji hot-food">🥣</span> Soup</span>
+          <span class="chip" onclick="browseCuisine('Chinese','🇨🇳')"><span class="chip-emoji hot-food">🥟</span> Dumplings</span>
+          <span class="chip" onclick="quickSearch('Cake')"><span class="chip-emoji">🎂</span> Cake</span>
+          <span class="chip" onclick="quickSearch('Dal Makhani')"><span class="chip-emoji hot-food">🫕</span> Dal</span>
+          <span class="chip" onclick="quickSearch('Salad')"><span class="chip-emoji">🥗</span> Salad</span>
+        </div>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num">5,000+</span><span class="stat-label">Recipes</span></div>
+        <div class="stat-sep"></div>
+        <div class="stat"><span class="stat-num">100+</span><span class="stat-label">Cuisines</span></div>
+        <div class="stat-sep"></div>
+        <div class="stat"><span class="stat-num">Nutrition</span><span class="stat-label">Data Included</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN — populated by JS -->
+  <main id="mainContent" aria-live="polite" aria-label="Recipe content"></main>
+
+  <!-- COOK MODE OVERLAY -->
+  <div class="cook-overlay" id="cookOverlay">
+    <div class="cook-bg-steam" aria-hidden="true">
+      <div class="cm-steam s1"></div>
+      <div class="cm-steam s2"></div>
+      <div class="cm-steam s3"></div>
+    </div>
+    <div class="cook-panel">
+      <div class="cook-header">
+        <div class="cook-header-left">
+          <p class="cook-label">🍳 Now Cooking</p>
+          <h2 id="cookTitle"></h2>
+        </div>
+        <button class="cook-close" onclick="toggleCookMode()">✕ Exit</button>
+      </div>
+
+      <div class="cook-progress-bar">
+        <div id="cookProgressFill"></div>
+      </div>
+
+      <div class="cook-body">
+        <div class="cook-step-badge">
+          <span id="cookStepCounter" class="cook-step-counter">Step 1</span>
+          <span id="cookStepTotal" class="cook-step-total">of 10</span>
+        </div>
+
+        <div class="cook-step-card" id="cookStepCard">
+          <div class="cook-step-icon" id="cookStepIcon">🥄</div>
+          <p class="cook-step-text" id="cookStepText"></p>
+          <div class="cook-tip" id="cookTip"></div>
+        </div>
+
+        <div class="cook-nav">
+          <button class="cook-nav-btn" id="cookPrev" onclick="cmPrev()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16">
+              <path d="M19 12H5M12 5l-7 7 7 7" />
+            </svg>
+            Previous
+          </button>
+          <div class="cook-dots" id="cookDots"></div>
+          <button class="cook-nav-btn cook-nav-next" id="cookNext" onclick="cmNext()">
+            Next
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="cook-keyboard-hint">
+        <span>← → Arrow keys to navigate</span>
+        <span>·</span>
+        <span>Esc to exit</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">Flavor<span>Hub</span></div>
+      <p>Made with ❤️ by <span>Debjeet Nandi</span></p>
+      <div class="footer-links">
+        <a href="#" onclick="showHome(); return false;">Home</a>
+        <a href="#" onclick="showFavourites(); return false;">Saved Recipes</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Translation System — must load BEFORE inline script -->
+  <script src="translator.js"></script>
+
+
+  <script src="script.js"></script>
+</body>
+</html>
